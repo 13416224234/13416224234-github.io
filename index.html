@@ -3,256 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>极大似然估计渐近正态性演示</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+    <title>Tabbed Navigation</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
+            background-color: #f5f5f5;
+            padding: 20px;
         }
-        .container {
-            max-width: 900px;
+        
+        .tabs-container {
+            max-width: 1200px;
             margin: 0 auto;
-        }
-        .chart-container {
-            position: relative;
-            height: 400px;
-            margin-bottom: 30px;
-        }
-        .controls {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f5f5f5;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             border-radius: 5px;
+            overflow: hidden;
         }
-        button {
-            padding: 8px 15px;
-            margin-right: 10px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
+        
+        .tabs-header {
+            display: flex;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 15px 25px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border-right: 1px solid #e0e0e0;
+            position: relative;
         }
-        button:hover {
-            background: #45a049;
+        
+        .tab:last-child {
+            border-right: none;
         }
-        .slider-container {
-            margin: 15px 0;
+        
+        .tab.active {
+            background-color: white;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 2px solid #4CAF50;
         }
-        .explanation {
-            background: #e9f7ef;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
+        
+        .tab:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        p {
+            line-height: 1.6;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>极大似然估计渐近正态性演示</h1>
-        
-        <div class="controls">
-            <div class="slider-container">
-                <label for="sampleSize">样本量 (n): <span id="sampleSizeValue">30</span></label>
-                <input type="range" id="sampleSize" min="5" max="200" value="30" step="5">
-            </div>
-            <div class="slider-container">
-                <label for="numSamples">重复实验次数: <span id="numSamplesValue">100</span></label>
-                <input type="range" id="numSamples" min="10" max="1000" value="100" step="10">
-            </div>
-            <button id="startBtn">开始模拟</button>
-            <button id="resetBtn">重置</button>
+    <div class="tabs-container">
+        <div class="tabs-header">
+            <div class="tab active" data-tab="home">首页</div>
+            <div class="tab" data-tab="articles">文章</div>
+            <div class="tab" data-tab="thoughts">碎碎念</div>
+            <div class="tab" data-tab="about">关于</div>
+            <div class="tab" data-tab="guestbook">留言板</div>
         </div>
         
-        <div class="chart-container">
-            <canvas id="distributionChart"></canvas>
-        </div>
-        
-        <div class="explanation">
-            <h3>极大似然估计的渐近正态性解释</h3>
-            <p>随着样本量n的增加，极大似然估计量θ̂的分布会:</p>
-            <ol>
-                <li>越来越集中在真实参数θ₀附近（相合性）</li>
-                <li>分布形状越来越接近正态分布（渐近正态性）</li>
-                <li>分布的方差逐渐减小，与1/√n成正比</li>
-            </ol>
-            <p>数学表达式: √n(θ̂ - θ₀) → N(0, I(θ₀)⁻¹)，其中I(θ₀)是Fisher信息量</p>
-            <p>红色曲线表示理论上的渐近正态分布，蓝色柱状图是模拟得到的估计量分布。</p>
+        <div class="tabs-content">
+            <div class="tab-content active" id="home">
+                <h2>欢迎来到我的博客首页</h2>
+                <p>这里是博客的首页内容，您可以在这里看到最新的文章和动态。</p>
+                <p>我儿怎么当乡关，李不满意留不罢</p>
+            </div>
+            
+            <div class="tab-content" id="articles">
+                <h2>我的文章</h2>
+                <p>这里是我的所有文章列表，包括技术分享、生活感悟等内容。</p>
+                <ul>
+                    <li>Web安全入门</li>
+                    <li>前端开发技巧</li>
+                    <li>网络安全实践</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="thoughts">
+                <h2>碎碎念</h2>
+                <p>这里记录我的日常思考和随想。</p>
+                <p>2022.7-10 12:49 | 354字 | 第2分钟</p>
+            </div>
+            
+            <div class="tab-content" id="about">
+                <h2>关于我</h2>
+                <p>您能干安全技术的小白帽</p>
+                <p>我是一个对安全技术感兴趣的开发者，喜欢分享知识和经验。</p>
+            </div>
+            
+            <div class="tab-content" id="guestbook">
+                <h2>留言板</h2>
+                <p>欢迎留下您的意见和建议！</p>
+                <textarea placeholder="请输入您的留言..." style="width:100%; height:100px; padding:10px;"></textarea>
+                <button style="margin-top:10px; padding:8px 15px; background:#4CAF50; color:white; border:none; border-radius:4px;">提交留言</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // 初始化图表
-        const ctx = document.getElementById('distributionChart').getContext('2d');
-        let chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                datasets: [
-                    {
-                        label: '估计值分布',
-                        data: [],
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: '理论正态分布',
-                        data: [],
-                        type: 'line',
-                        backgroundColor: 'rgba(255, 99, 132, 0)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: '估计值'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '密度'
-                        },
-                        beginAtZero: true
-                    }
-                },
-                animation: {
-                    duration: 1000
-                }
-            }
-        });
-
-        // 获取DOM元素
-        const sampleSizeSlider = document.getElementById('sampleSize');
-        const numSamplesSlider = document.getElementById('numSamples');
-        const sampleSizeValue = document.getElementById('sampleSizeValue');
-        const numSamplesValue = document.getElementById('numSamplesValue');
-        const startBtn = document.getElementById('startBtn');
-        const resetBtn = document.getElementById('resetBtn');
-
-        // 更新显示值
-        sampleSizeSlider.addEventListener('input', () => {
-            sampleSizeValue.textContent = sampleSizeSlider.value;
-        });
-
-        numSamplesSlider.addEventListener('input', () => {
-            numSamplesValue.textContent = numSamplesSlider.value;
-        });
-
-        // 重置按钮
-        resetBtn.addEventListener('click', () => {
-            sampleSizeSlider.value = 30;
-            numSamplesSlider.value = 100;
-            sampleSizeValue.textContent = '30';
-            numSamplesValue.textContent = '100';
-            chart.data.datasets[0].data = [];
-            chart.data.datasets[1].data = [];
-            chart.update();
-        });
-
-        // 开始模拟
-        startBtn.addEventListener('click', () => {
-            const n = parseInt(sampleSizeSlider.value);
-            const numSamples = parseInt(numSamplesSlider.value);
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            // 真实参数 - 假设是正态分布均值
-            const trueMean = 5;
-            const trueStd = 2;
-            
-            // 模拟极大似然估计
-            const estimates = [];
-            for (let i = 0; i < numSamples; i++) {
-                const sample = jstat.normal.sample(trueMean, trueStd, n);
-                const mle = jstat.mean(sample); // 正态分布均值的MLE就是样本均值
-                estimates.push(mle);
-            }
-            
-            // 计算理论渐近分布参数
-            const theoreticalMean = trueMean;
-            const theoreticalStd = trueStd / Math.sqrt(n);
-            
-            // 创建直方图数据
-            const binSize = 0.5;
-            const minEst = Math.min(...estimates);
-            const maxEst = Math.max(...estimates);
-            const numBins = Math.ceil((maxEst - minEst) / binSize);
-            
-            const histogram = {};
-            for (let i = 0; i < numBins; i++) {
-                const binStart = minEst + i * binSize;
-                const binEnd = binStart + binSize;
-                histogram[binStart] = 0;
-            }
-            
-            estimates.forEach(est => {
-                const bin = Math.floor((est - minEst) / binSize) * binSize + minEst;
-                histogram[bin] = (histogram[bin] || 0) + 1;
-            });
-            
-            // 转换为图表数据格式
-            const histData = Object.entries(histogram).map(([x, y]) => ({
-                x: parseFloat(x) + binSize/2,
-                y: y / (numSamples * binSize) // 转换为密度
-            }));
-            
-            // 创建理论正态曲线数据
-            const theoryData = [];
-            const step = (maxEst - minEst) / 100;
-            for (let x = minEst - 1; x <= maxEst + 1; x += step) {
-                theoryData.push({
-                    x: x,
-                    y: jstat.normal.pdf(x, theoreticalMean, theoreticalStd)
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
                 });
-            }
-            
-            // 更新图表
-            chart.data.datasets[0].data = histData;
-            chart.data.datasets[1].data = theoryData;
-            chart.update();
-            
-            // 添加动画效果
-            animateChart();
+            });
         });
-
-        // 图表动画效果
-        function animateChart() {
-            let progress = 0;
-            const animationDuration = 1000; // ms
-            const startTime = performance.now();
-            
-            function updateAnimation() {
-                const currentTime = performance.now();
-                progress = Math.min(1, (currentTime - startTime) / animationDuration);
-                
-                chart.options.animation = {
-                    duration: 0,
-                    onProgress: function() {
-                        this.data.datasets[0]._meta[0].data.forEach((bar, i) => {
-                            bar._model.y = bar._yScale.getPixelForValue(bar._y * progress);
-                        });
-                    }
-                };
-                chart.update();
-                
-                if (progress < 1) {
-                    requestAnimationFrame(updateAnimation);
-                }
-            }
-            
-            requestAnimationFrame(updateAnimation);
-        }
     </script>
 </body>
 </html>
